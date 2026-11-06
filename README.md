@@ -74,7 +74,6 @@
   - [AUROC Category Comparison](#auroc-gain-amem-net-vs-baselines)
   - [F1 Category Comparison](#f1-category-comparison)
   - [Anomaly Localization Heatmaps](#anomaly-localization-heatmaps)
-  - [Comparative Heatmaps: AMEM-Net vs Baseline](#comparative-heatmaps-amem-net-vs-baseline)
   - [Router Loss Convergence](#router-loss-convergence)
   - [Validation Calibration Curve](#validation-calibration-curve)
 - [🛡️ Engineering: Reliability Features](#-engineering-reliability-features)
@@ -407,25 +406,11 @@ The table below documents the self-supervised pseudo-gap used to calibrate each 
 
 <br/>
 
-### Comparative Heatmaps: AMEM-Net vs Baseline
-
-<div align="center">
-
-| Carpet - AMEM-Net vs Baseline | Hazelnut - AMEM-Net vs Baseline |
-|:---:|:---:|
-| ![Carpet AMEM Comparison](figures/heatmap_amem_carpet.png) | ![Hazelnut AMEM Comparison](figures/heatmap_amem_hazelnut.png) |
-
-</div>
-
-<sub><i>Fig. 8: Side-by-side comparison of AMEM-Net anomaly maps vs baseline for Carpet and Hazelnut. AMEM-Net produces sharper, more localised defect highlighting.</i></sub>
-
-<br/>
-
 ### Router Loss Convergence
 
 <div align="center">
 <img src="figures/Fig07_AMEM_Router_Loss_Logged.png" alt="AMEM-Net Router Training Loss Curves" width="820"/>
-<br/><sub><i>Fig. 9: Self-supervised router loss curves per category across 50 epochs. Smooth convergence confirms stable self-supervised margin learning without anomaly label guidance.</i></sub>
+<br/><sub><i>Fig. 8: Self-supervised router loss curves per category across 50 epochs. Smooth convergence confirms stable self-supervised margin learning without anomaly label guidance.</i></sub>
 </div>
 
 <br/>
@@ -434,7 +419,7 @@ The table below documents the self-supervised pseudo-gap used to calibrate each 
 
 <div align="center">
 <img src="figures/Fig06_Validation_Calibration.png" alt="Validation Calibration Curves" width="720"/>
-<br/><sub><i>Fig. 10: Validation-only threshold calibration: Score distributions of normal validation images and pseudo-anomalies per category. All 8 categories show clear separation - zero test label leakage.</i></sub>
+<br/><sub><i>Fig. 9: Validation-only threshold calibration: Score distributions of normal validation images and pseudo-anomalies per category. All 8 categories show clear separation - zero test label leakage.</i></sub>
 </div>
 
 ---
