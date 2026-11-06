@@ -252,7 +252,7 @@ $$S_{\text{image}} = \frac{1}{K} \sum_{k=1}^{K} s_{(k)}(\mathbf{q}), \quad K = \
 
 **Validation-only threshold calibration (leakage-safe):**
 
-$$\tau = Q_{0.995}\left(\{ S_{\text{image}}^{(j)} \}_{j \in \mathcal{D}_{\text{val}}}\right)$$
+$$\tau = Q_{0.995}\Big( \{ S_{\text{image}}^{(j)} \}_{j \in \mathcal{D}_{\text{val}}} \Big)$$
 
 The threshold is locked from held-out **normal validation images only** - test labels are never consulted during calibration.
 
