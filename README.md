@@ -183,7 +183,7 @@ graph TD
 
 The backbone is a **WideResNet50-2** pretrained on ImageNet, used in **frozen** inference mode. Feature maps are extracted from two intermediate layers and fused:
 
-$$\mathbf{f}(x) = \operatorname{concat}\left( \mathbf{f}_{\text{layer2}}(x), \; \operatorname{upsample}\left(\mathbf{f}_{\text{layer3}}(x)\right) \right) \in \mathbb{R}^{B \times 1536 \times H \times W}$$
+$$\mathbf{f}(x) = \mathrm{Concat}\left(\mathbf{f}_{\text{layer2}}(x), \; \mathrm{Upsample}(\mathbf{f}_{\text{layer3}}(x))\right) \in \mathbb{R}^{B \times 1536 \times H \times W}$$
 
 Each spatial location becomes a **1536-dimensional patch descriptor** encoding multi-scale texture and semantic information.
 
