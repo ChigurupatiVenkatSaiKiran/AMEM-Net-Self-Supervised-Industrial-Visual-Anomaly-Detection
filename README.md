@@ -58,7 +58,7 @@
 - [💡 Why This Matters](#-why-this-matters)
 - [🔬 AMEM-Net Architecture](#-amem-net-architecture)
 - [🏗️ Pipeline Architecture](#-pipeline-architecture)
-- [📊 MVTec AD Dataset](#-mvtec-ad-dataset)
+- [📊 MVTec Anomaly Detection Benchmark](#-mvtec-anomaly-detection-benchmark)
 - [🧠 Core Algorithm Design](#-core-algorithm-design)
   - [1. WideResNet50-2 Feature Extractor](#1-wideresnet50-2-feature-extractor)
   - [2. Adaptive Memory Expert Networks (AMEM)](#2-adaptive-memory-expert-networks-amem)
@@ -150,17 +150,21 @@ graph TD
 
 ---
 
-## 📊 MVTec AD Dataset
+## 📊 MVTec Anomaly Detection Benchmark
 
-**[MVTec AD](https://www.mvtec.com/company/research/datasets/mvtec-ad)** - the gold-standard industrial anomaly detection benchmark.
+The **MVTec Anomaly Detection (MVTec AD)** dataset is the premier industrial benchmark for evaluating unsupervised and self-supervised defect detection systems, featuring diverse object and texture categories with authentic industrial defect modes.
 
-| Property | Details |
-|:---|:---|
-| **Total Categories** | 15 (8 selected for this study) |
-| **Training Protocol** | Normal images only - no defects seen during training |
-| **Image Resolution** | 128×128 (resized from original high-resolution) |
-| **Validation Split** | 10% held-out from training set (seed=42) - used for threshold calibration only |
-| **Test Evaluation** | Full MVTec test split - evaluated once after threshold frozen |
+### Benchmark Specifications
+
+| Property | Specification | Details |
+|:---|:---|:---|
+| **Benchmark** | MVTec AD | Gold-standard industrial visual inspection benchmark |
+| **Total Dataset Classes** | 15 categories | 10 object categories and 5 texture categories |
+| **Evaluated Categories** | 8 categories | Bottle, Carpet, Hazelnut, Metal Nut, Wood, Leather, Cable, Transistor |
+| **Training Protocol** | Normal images only | Strictly zero anomaly labels or synthetic defects used during training |
+| **Input Resolution** | 128 × 128 pixels | Standardized multi-scale spatial feature dimension |
+| **Validation Split** | 10% held-out | Normal validation images used strictly for threshold calibration (seed 42) |
+| **Evaluation Mode** | Image-level | AUROC, F1-Score, Precision, Recall, Accuracy |
 
 ### Selected Categories (8 of 15)
 
