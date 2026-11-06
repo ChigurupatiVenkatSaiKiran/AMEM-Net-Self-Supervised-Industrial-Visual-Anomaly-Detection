@@ -1,0 +1,26 @@
+cff-version: 1.2.0
+message: "If you use this research, please cite it as below."
+type: software
+authors:
+  - family-names: Chigurupati
+    given-names: Venkat Sai Kiran
+title: "AMEM-Net: Adaptive Memory Expert Network for Self-Supervised Industrial Visual Anomaly Detection"
+abstract: >
+  A novel self-supervised industrial visual anomaly detection architecture combining
+  a frozen WideResNet50-2 feature extractor, Adaptive Memory Expert Networks (AMEM),
+  and a self-supervised dynamic margin router. Achieves macro-mean AUROC 97.72% across
+  8 MVTec AD categories using only normal training images — no anomaly labels required.
+year: 2026
+license: MIT
+repository-code: "https://github.com/ChigurupatiVenkatSaiKiran/AMEM-Net-Self-Supervised-Industrial-Visual-Anomaly-Detection"
+keywords:
+  - anomaly-detection
+  - self-supervised-learning
+  - mixture-of-experts
+  - industrial-inspection
+  - computer-vision
+  - PyTorch
+  - MVTec-AD
+  - WideResNet
+  - memory-augmented-networks
+

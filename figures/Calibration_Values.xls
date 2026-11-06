@@ -1,0 +1,9 @@
+Category,Validation pseudo gap,Threshold
+Bottle,0.9237,0.165508
+Carpet,0.7411,0.557766
+Hazelnut,0.8526,0.454136
+Metal Nut,0.9432,0.425281
+Wood,0.7138,0.492617
+Leather,0.8862,0.463827
+Cable,0.6325,0.538194
+Transistor,0.7743,0.487306

@@ -1,0 +1,9 @@
+# Auto-detect all text files
+* text=auto
+
+# Force GitHub Linguist to classify this repo as Python (not Jupyter Notebook)
+*.ipynb linguist-language=Python
+
+# Treat SVG as vendored (keeps repo language stats clean)
+*.svg linguist-vendored
+

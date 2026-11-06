@@ -1,0 +1,44 @@
+# MVTec AD Dataset — do NOT commit (download separately)
+# Official: https://www.mvtec.com/company/research/datasets/mvtec-ad
+mvtec_anomaly_detection/
+
+# AMEM-Net model checkpoints & cached files (can be reproduced by running notebook)
+checkpoints/
+*.pt
+*.pth
+*.npz
+amem_v6_results/
+amem_results/
+patchcore_results/
+baseline_results/
+
+# Reference templates folder (local only)
+best example readme of other projects/
+
+# Jupyter Notebook checkpoints
+.ipynb_checkpoints/
+
+# Python cache
+__pycache__/
+*.py[cod]
+*.pyo
+*.egg-info/
+dist/
+build/
+
+# OS files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# IDE settings
+.vscode/
+.idea/
+
+# Log files
+*.log
+
+# Temp files
+*.tmp
+*.bak
+
