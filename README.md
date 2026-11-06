@@ -56,9 +56,9 @@
 
 - [⚡ Key Performance Highlights](#-key-performance-highlights)
 - [💡 Why This Matters](#-why-this-matters)
-- [🔬 What Was Built: The AMEM-Net Architecture](#-what-was-built-the-amem-net-architecture)
+- [🔬 AMEM-Net Architecture](#-amem-net-architecture)
 - [🏗️ Pipeline Architecture](#-pipeline-architecture)
-- [📊 Dataset: MVTec Anomaly Detection](#-dataset-mvtec-anomaly-detection)
+- [📊 MVTec AD Dataset](#-mvtec-ad-dataset)
 - [🧠 Core Algorithm Design](#-core-algorithm-design)
   - [1. WideResNet50-2 Feature Extractor](#1-wideresnet50-2-feature-extractor)
   - [2. Adaptive Memory Expert Networks (AMEM)](#2-adaptive-memory-expert-networks-amem)
@@ -71,7 +71,7 @@
   - [4. AMEM-Net Detailed Per-Category Metrics](#4-amem-net-detailed-per-category-metrics)
   - [5. Validation Calibration Results](#5-validation-calibration-results)
 - [📊 Visualizations & Heatmaps](#-visualizations-heatmaps)
-  - [AUROC Category Comparison](#auroc-gain-amem-net-vs-baselines)
+  - [Category-Wise AUROC Comparison](#category-wise-auroc-comparison)
   - [F1 Category Comparison](#f1-category-comparison)
   - [Anomaly Localization Heatmaps](#anomaly-localization-heatmaps)
   - [Router Loss Convergence](#router-loss-convergence)
@@ -103,7 +103,7 @@ AMEM-Net's answer: **Yes.** By maintaining a partitioned expert memory of normal
 
 ---
 
-## 🔬 What Was Built: The AMEM-Net Architecture
+## 🔬 AMEM-Net Architecture
 
 AMEM-Net is a **4-stage self-supervised anomaly detection pipeline**:
 
@@ -150,7 +150,7 @@ graph TD
 
 ---
 
-## 📊 Dataset: MVTec Anomaly Detection
+## 📊 MVTec AD Dataset
 
 **[MVTec AD](https://www.mvtec.com/company/research/datasets/mvtec-ad)** - the gold-standard industrial anomaly detection benchmark.
 
@@ -372,7 +372,7 @@ The table below documents the self-supervised pseudo-gap used to calibrate each 
 
 ## 📊 Visualizations & Heatmaps
 
-### AUROC Gain: AMEM-Net vs Baselines
+### Category-Wise AUROC Comparison
 
 <div align="center">
 <img src="figures/Fig04_AUROC_Category_Comparison.png" alt="AUROC Category-wise Comparison Bar Chart" width="960"/>
