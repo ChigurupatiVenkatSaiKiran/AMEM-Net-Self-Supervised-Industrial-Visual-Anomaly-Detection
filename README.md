@@ -34,7 +34,7 @@
 
 ---
 
-## ⚡ TL;DR: Four Numbers That Tell the Story
+## ⚡ Key Performance Highlights
 
 <div align="center">
 
@@ -48,12 +48,13 @@
 
 </div>
 
-> **Bottom line:** AMEM-Net outperforms all baselines by macro-mean AUROC - achieving **+0.72% over PatchCore** and **+8.29% over CNN-AE** - all without ever seeing a single defective image during training. AMEM-Net crushes PatchCore on difficult categories like **Transistor (+1.33%)** and **Cable (+1.84%)**.
+> **Key Takeaway:** AMEM-Net outperforms all baselines by macro-mean AUROC, achieving **+0.72% over PatchCore** and **+8.29% over CNN-AE** without ever seeing a single defective image during training. AMEM-Net delivers decisive gains on challenging categories such as **Transistor (+1.33%)** and **Cable (+1.84%)** where nearest-neighbour memory alone struggles.
 
 ---
 
 ## 📋 Table of Contents
 
+- [⚡ Key Performance Highlights](#-key-performance-highlights)
 - [💡 Why This Matters](#-why-this-matters)
 - [🔬 What Was Built: The AMEM-Net Architecture](#-what-was-built-the-amem-net-architecture)
 - [🏗️ Pipeline Architecture](#-pipeline-architecture)
