@@ -22,7 +22,7 @@
 
 <br/>
 
-> **A novel self-supervised industrial visual anomaly detection architecture** combining a frozen WideResNet50-2 feature extractor, Adaptive Memory Expert Networks (AMEM), and a self-supervised dynamic margin router — detecting manufacturing defects across 8 MVTec AD categories with **macro-mean AUROC 97.72%** using only normal training images. No anomaly labels. No synthetic defect generation.
+> **A novel self-supervised industrial visual anomaly detection architecture** combining a frozen WideResNet50-2 feature extractor, Adaptive Memory Expert Networks (AMEM), and a self-supervised dynamic margin router - detecting manufacturing defects across 8 MVTec AD categories with **macro-mean AUROC 97.72%** using only normal training images. No anomaly labels. No synthetic defect generation.
 
 <br/>
 
@@ -34,7 +34,7 @@
 
 ---
 
-## ⚡ TL;DR — Four Numbers That Tell the Story
+## ⚡ TL;DR: Four Numbers That Tell the Story
 
 <div align="center">
 
@@ -48,40 +48,40 @@
 
 </div>
 
-> **Bottom line:** AMEM-Net outperforms all baselines by macro-mean AUROC — achieving **+0.72% over PatchCore** and **+8.29% over CNN-AE** — all without ever seeing a single defective image during training. AMEM-Net crushes PatchCore on difficult categories like **Transistor (+1.33%)** and **Cable (+1.84%)**.
+> **Bottom line:** AMEM-Net outperforms all baselines by macro-mean AUROC - achieving **+0.72% over PatchCore** and **+8.29% over CNN-AE** - all without ever seeing a single defective image during training. AMEM-Net crushes PatchCore on difficult categories like **Transistor (+1.33%)** and **Cable (+1.84%)**.
 
 ---
 
 ## 📋 Table of Contents
 
 - [💡 Why This Matters](#-why-this-matters)
-- [🔬 What Was Built — The AMEM-Net Architecture](#-what-was-built--the-amem-net-architecture)
-- [🏗️ Pipeline Architecture](#️-pipeline-architecture)
-- [📊 Dataset — MVTec Anomaly Detection](#-dataset--mvtec-anomaly-detection)
+- [🔬 What Was Built: The AMEM-Net Architecture](#-what-was-built-the-amem-net-architecture)
+- [🏗️ Pipeline Architecture](#-pipeline-architecture)
+- [📊 Dataset: MVTec Anomaly Detection](#-dataset-mvtec-anomaly-detection)
 - [🧠 Core Algorithm Design](#-core-algorithm-design)
   - [1. WideResNet50-2 Feature Extractor](#1-wideresnet50-2-feature-extractor)
   - [2. Adaptive Memory Expert Networks (AMEM)](#2-adaptive-memory-expert-networks-amem)
   - [3. Self-Supervised Dynamic Router](#3-self-supervised-dynamic-router)
-  - [4. Score Construction & Threshold Calibration](#4-score-construction--threshold-calibration)
+  - [4. Score Construction & Threshold Calibration](#4-score-construction-threshold-calibration)
 - [📈 Comprehensive Experimental Results](#-comprehensive-experimental-results)
   - [1. Per-Category AUROC Results](#1-per-category-auroc-results)
   - [2. Per-Category F1 Results](#2-per-category-f1-results)
   - [3. Full 5-Model Comparison Table](#3-full-5-model-comparison-table)
   - [4. AMEM-Net Detailed Per-Category Metrics](#4-amem-net-detailed-per-category-metrics)
   - [5. Validation Calibration Results](#5-validation-calibration-results)
-- [📊 Visualizations & Heatmaps](#-visualizations--heatmaps)
+- [📊 Visualizations & Heatmaps](#-visualizations-heatmaps)
   - [AUROC Category Comparison](#auroc-gain-amem-net-vs-baselines)
   - [F1 Category Comparison](#f1-category-comparison)
-  - [Anomaly Localization Heatmaps](#anomaly-heatmaps--amem-net-localization)
-  - [Comparative Heatmaps (AMEM-Net vs Baseline)](#comparative-heatmaps--amem-net-vs-baseline)
+  - [Anomaly Localization Heatmaps](#anomaly-localization-heatmaps)
+  - [Comparative Heatmaps: AMEM-Net vs Baseline](#comparative-heatmaps-amem-net-vs-baseline)
   - [Router Loss Convergence](#router-loss-convergence)
   - [Validation Calibration Curve](#validation-calibration-curve)
-- [🛡️ Engineering: Reliability Features](#️-engineering-reliability-features)
+- [🛡️ Engineering: Reliability Features](#-engineering-reliability-features)
 - [🚀 Quick Start](#-quick-start)
 - [📁 Repository Structure](#-repository-structure)
 - [🧰 Tech Stack](#-tech-stack)
-- [⚙️ Experimental Configuration](#️-experimental-configuration)
-- [⚠️ Limitations](#️-limitations)
+- [⚙️ Experimental Configuration](#-experimental-configuration)
+- [⚠️ Limitations](#-limitations)
 - [📜 Citation](#-citation)
 - [📄 License](#-license)
 
@@ -91,19 +91,19 @@
 
 Industrial quality control is one of manufacturing's most expensive bottlenecks. Traditional supervised defect detection requires:
 
-- ❌ **Large labeled anomaly datasets** — Defects are rare; collecting thousands of labeled examples is infeasible.
-- ❌ **Fixed defect taxonomies** — New defect types not seen during training are silently missed.
-- ❌ **Retraining on new product lines** — Every new product requires a full new supervised training cycle.
+- ❌ **Large labeled anomaly datasets** - Defects are rare; collecting thousands of labeled examples is infeasible.
+- ❌ **Fixed defect taxonomies** - New defect types not seen during training are silently missed.
+- ❌ **Retraining on new product lines** - Every new product requires a full new supervised training cycle.
 
 **AMEM-Net** solves this with a pure self-supervised paradigm:
 
-> **Q — Can a model learn what "normal" looks like so precisely that it reliably flags anything that isn't — without ever seeing a defect?**
+> **Q - Can a model learn what "normal" looks like so precisely that it reliably flags anything that isn't - without ever seeing a defect?**
 
 AMEM-Net's answer: **Yes.** By maintaining a partitioned expert memory of normal patch features and training a router entirely from self-supervised pseudo-anomaly margins, the system achieves industrial-grade detection accuracy from normal-only training data.
 
 ---
 
-## 🔬 What Was Built — The AMEM-Net Architecture
+## 🔬 What Was Built: The AMEM-Net Architecture
 
 AMEM-Net is a **4-stage self-supervised anomaly detection pipeline**:
 
@@ -114,7 +114,7 @@ Stage 3: Router Training       →  Self-supervised margin loss (pseudo-anomaly 
 Stage 4: Score & Threshold     →  Top-5% patch aggregation + validation-only calibration
 ```
 
-Evaluated against **4 baseline architectures** across **8 MVTec AD categories** in a fully leakage-safe protocol — thresholds calibrated on held-out normal validation images, never from test labels.
+Evaluated against **4 baseline architectures** across **8 MVTec AD categories** in a fully leakage-safe protocol - thresholds calibrated on held-out normal validation images, never from test labels.
 
 ---
 
@@ -123,8 +123,8 @@ Evaluated against **4 baseline architectures** across **8 MVTec AD categories** 
 ### 🖼️ System Architecture Diagram
 
 <div align="center">
-<img src="figures/AMEM_Net_Architecture.svg" alt="AMEM-Net System Architecture — Self-Supervised Industrial Visual Anomaly Detection" width="100%"/>
-<br/><sub><i>Fig. 1 — AMEM-Net Architecture: MVTec AD → WideResNet50-2 Feature Extraction → 4-Expert Adaptive Memory → Self-Supervised Router → Score Construction → Anomaly Decision</i></sub>
+<img src="figures/AMEM_Net_Architecture.svg" alt="AMEM-Net System Architecture - Self-Supervised Industrial Visual Anomaly Detection" width="100%"/>
+<br/><sub><i>Fig. 1: AMEM-Net Architecture: MVTec AD → WideResNet50-2 Feature Extraction → 4-Expert Adaptive Memory → Self-Supervised Router → Score Construction → Anomaly Decision</i></sub>
 </div>
 
 <br/>
@@ -132,58 +132,35 @@ Evaluated against **4 baseline architectures** across **8 MVTec AD categories** 
 ### 🔄 End-to-End Pipeline Flowchart
 
 ```mermaid
-flowchart TD
-    A["📦 MVTec AD Dataset\n8 Categories: bottle · carpet · hazelnut\nmetal_nut · wood · leather · cable · transistor"] --> B
-
-    B["🔍 Data Preprocessing\nResize 128×128 · ImageNet Normalize\n10% held-out validation split (seed=42)"] --> C
-
-    C["🧠 WideResNet50-2 Feature Extractor\nFrozen ImageNet Weights\nlayer2 (512-D) + layer3 (1024-D) fused → 1536-D patch features"] --> D & E
-
-    D["📐 PatchCore Baseline\n25% coreset subsampling\n9-NN distance scoring\nValidation-calibrated threshold (q=0.995)"]
-
-    E["🏗️ AMEM-Net Core\n4 Expert Memory Banks × 512 slots\nWideResNet50-2 normal patch features\nSelf-supervised router training"] --> F & G & H
-
-    F["🔵 Expert 1\n512 normal patch\nrepresentatives"]
-    G["🟠 Expert 2–3\n512 normal patch\nrepresentatives each"]
-    H["🟢 Expert 4\n512 normal patch\nrepresentatives"]
-
-    F & G & H --> I
-
-    I["🎯 Dynamic Router\nSelf-supervised margin loss\nPseudo-anomaly contrast\n50 epochs · LR=2e-4"] --> J
-
-    J["📊 Score Construction\nTop-5% patch aggregation\nFeedback temperature τ=0.10\nRouter + Memory distance fusion"] --> K
-
-    K["🎚️ Threshold Calibration\nHeld-out normal validation images ONLY\nValidation pseudo gap metric\nZero test label leakage"] --> L
-
-    L["✅ Anomaly Decision\nTest set evaluation\nAUROC · F1 · Precision · Recall · Accuracy"]
-
-    style A fill:#312e81,stroke:#6366f1,color:#ffffff
-    style B fill:#1e3a5f,stroke:#3b82f6,color:#ffffff
-    style C fill:#4c1d95,stroke:#8b5cf6,color:#ffffff
-    style D fill:#064e3b,stroke:#10b981,color:#ffffff
-    style E fill:#4c1d95,stroke:#8b5cf6,color:#ffffff
-    style F fill:#1e3a5f,stroke:#3b82f6,color:#ffffff
-    style G fill:#1e3a5f,stroke:#3b82f6,color:#ffffff
-    style H fill:#1e3a5f,stroke:#3b82f6,color:#ffffff
-    style I fill:#7f1d1d,stroke:#ef4444,color:#ffffff
-    style J fill:#064e3b,stroke:#10b981,color:#ffffff
-    style K fill:#78350f,stroke:#f59e0b,color:#ffffff
-    style L fill:#312e81,stroke:#6366f1,color:#ffffff
+graph TD
+    A[MVTec AD Dataset: 8 Industrial Categories] --> B[Preprocessing: 128x128 ImageNet Normalized]
+    B --> C[WideResNet50-2 Backbone: Multi-Scale Feature Fusion]
+    C --> D[PatchCore Baseline: 25% Coreset Subsampling]
+    C --> E[AMEM-Net Core: 4 Expert Memory Banks]
+    E --> F[Expert 1: 512 Normal Patch Slots]
+    E --> G[Expert 2-3: 512 Normal Patch Slots Each]
+    E --> H[Expert 4: 512 Normal Patch Slots]
+    F --> I[Dynamic Router: Self-Supervised Margin Loss]
+    G --> I
+    H --> I
+    I --> J[Score Construction: Top 5% Patch Aggregation]
+    J --> K[Validation Calibration: Normal Images Only]
+    K --> L[Test Evaluation: AUROC, F1, Precision, Recall, Accuracy]
 ```
 
 ---
 
-## 📊 Dataset — MVTec Anomaly Detection
+## 📊 Dataset: MVTec Anomaly Detection
 
-**[MVTec AD](https://www.mvtec.com/company/research/datasets/mvtec-ad)** — the gold-standard industrial anomaly detection benchmark.
+**[MVTec AD](https://www.mvtec.com/company/research/datasets/mvtec-ad)** - the gold-standard industrial anomaly detection benchmark.
 
 | Property | Details |
 |:---|:---|
 | **Total Categories** | 15 (8 selected for this study) |
-| **Training Protocol** | Normal images only — no defects seen during training |
+| **Training Protocol** | Normal images only - no defects seen during training |
 | **Image Resolution** | 128×128 (resized from original high-resolution) |
-| **Validation Split** | 10% held-out from training set (seed=42) — used for threshold calibration only |
-| **Test Evaluation** | Full MVTec test split — evaluated once after threshold frozen |
+| **Validation Split** | 10% held-out from training set (seed=42) - used for threshold calibration only |
+| **Test Evaluation** | Full MVTec test split - evaluated once after threshold frozen |
 
 ### Selected Categories (8 of 15)
 
@@ -206,11 +183,11 @@ flowchart TD
 
 The backbone is a **WideResNet50-2** pretrained on ImageNet, used in **frozen** inference mode. Feature maps are extracted from two intermediate layers and fused:
 
-$$\mathbf{f}(x) = \text{concat}\left[\text{layer2}(x),\; \text{bilinear\_upsample}\left(\text{layer3}(x),\; \text{size}(\text{layer2})\right)\right] \in \mathbb{R}^{B \times 1536 \times H \times W}$$
+$$\mathbf{f}(x) = \operatorname{concat}\left( \mathbf{f}_{\text{layer2}}(x), \; \operatorname{upsample}\left(\mathbf{f}_{\text{layer3}}(x)\right) \right) \in \mathbb{R}^{B \times 1536 \times H \times W}$$
 
 Each spatial location becomes a **1536-dimensional patch descriptor** encoding multi-scale texture and semantic information.
 
-**Why WideResNet50-2?** It delivers a 2× wider feature map per layer compared to ResNet50 — capturing finer texture variance critical for surface defect discrimination without any domain-specific retraining.
+**Why WideResNet50-2?** It delivers a 2× wider feature map per layer compared to ResNet50 - capturing finer texture variance critical for surface defect discrimination without any domain-specific retraining.
 
 ---
 
@@ -222,7 +199,7 @@ $$\mathcal{M} = \{\mathcal{M}_e\}_{e=1}^{4}, \quad \mathcal{M}_e \in \mathbb{R}^
 
 - **4 experts**, each holding **512 normal patch slots** = 2,048 total normal representatives per category
 - Memories are built from up to **20,000 normal training patches** (capped to manage 4GB VRAM)
-- Once built, expert memories are **frozen** — only the router is trained
+- Once built, expert memories are **frozen** - only the router is trained
 
 **Anomaly distance score for a query patch** $\mathbf{q}$:
 
@@ -238,7 +215,7 @@ where $\pi_e(\mathbf{q})$ is the router's soft routing probability for expert $e
 
 ### 3. Self-Supervised Dynamic Router
 
-The router learns to partition normal patches across experts using a **self-supervised margin loss** — no anomaly labels are ever used:
+The router learns to partition normal patches across experts using a **self-supervised margin loss** - no anomaly labels are ever used:
 
 **Pseudo-anomaly generation:**
 $$\tilde{\mathbf{q}} = \mathbf{q} + \delta, \quad \|\delta\|_2 \sim \text{Uniform}(0.5\sigma, 2.0\sigma)$$
@@ -266,24 +243,22 @@ $$\mathcal{L}_{\text{router}} = \underbrace{\mathcal{L}_{\text{normal}}(\mathbf{
 
 **Image-level score:** Aggregate the top 5% of patch anomaly scores:
 
-$$S_{\text{image}} = \text{mean}\left(\text{top}_{5\%}\left\{s(\mathbf{q}_i)\right\}_{i=1}^{HW}\right)$$
+$$S_{\text{image}} = \frac{1}{K} \sum_{k=1}^{K} s_{(k)}(\mathbf{q}), \quad K = \lfloor 0.05 \cdot H \cdot W \rfloor$$
 
 **Validation-only threshold calibration (leakage-safe):**
-$$\tau = Q_{99.5}\left(\{S_{\text{image}}^{(j)}\}_{j \in \text{val-normal}}\right)$$
+$$\tau = Q_{0.995}\left(\left\{S_{\text{image}}^{(j)}\right\}_{j \in \mathcal{D}_{\text{val}}}\right)$$
 
-The threshold is locked from held-out **normal validation images only** — test labels are never consulted during calibration.
+The threshold is locked from held-out **normal validation images only** - test labels are never consulted during calibration.
 
 ---
 
 ## 📈 Comprehensive Experimental Results
 
-> All results extracted directly from Jupyter Notebook cell outputs and confirmed against `figures/CategoryWise_Exact_Metrics.xls` — not estimates, not approximations. Thresholds calibrated on held-out normal validation images only.
-
 ### 1. Per-Category AUROC Results
 
 <div align="center">
-<img src="figures/Fig01_AUROC_Heatmap.png" alt="AUROC Heatmap — All Models vs All Categories" width="880"/>
-<br/><sub><i>Fig. 2 — AUROC Heatmap: AMEM-Net vs PatchCore vs ResNet-AE vs MemAE vs CNN-AE across 8 MVTec AD categories</i></sub>
+<img src="figures/Fig01_AUROC_Heatmap.png" alt="AUROC Heatmap - All Models vs All Categories" width="880"/>
+<br/><sub><i>Fig. 2: AUROC Heatmap: AMEM-Net vs PatchCore vs ResNet-AE vs MemAE vs CNN-AE across 8 MVTec AD categories</i></sub>
 </div>
 
 <br/>
@@ -300,15 +275,15 @@ The threshold is locked from held-out **normal validation images only** — test
 | **Transistor** | 84.58% | 91.22% | 90.07% | 92.71% | **94.04%** 🏆 |
 | **Macro Mean** | 89.43% | 92.83% | 93.44% | 97.00% | **97.72%** 🏆 |
 
-> **AMEM-Net achieves best macro-mean AUROC**, outperforming all baselines on 6 of 8 categories. Most impressive gains are on **Transistor (+1.33% vs PatchCore)** and **Cable (+1.84% vs PatchCore)** — categories where nearest-neighbour memory alone struggles due to high structural variability.
+> **AMEM-Net achieves best macro-mean AUROC**, outperforming all baselines on 6 of 8 categories. Most impressive gains are on **Transistor (+1.33% vs PatchCore)** and **Cable (+1.84% vs PatchCore)** - categories where nearest-neighbour memory alone struggles due to high structural variability.
 
 ---
 
 ### 2. Per-Category F1 Results
 
 <div align="center">
-<img src="figures/Fig02_F1_Heatmap.png" alt="F1 Heatmap — All Models vs All Categories" width="880"/>
-<br/><sub><i>Fig. 3 — F1 Heatmap: Comparison across all 5 models and 8 categories (threshold calibrated on validation normal images)</i></sub>
+<img src="figures/Fig02_F1_Heatmap.png" alt="F1 Heatmap - All Models vs All Categories" width="880"/>
+<br/><sub><i>Fig. 3: F1 Heatmap: Comparison across all 5 models and 8 categories (threshold calibrated on validation normal images)</i></sub>
 </div>
 
 <br/>
@@ -325,7 +300,7 @@ The threshold is locked from held-out **normal validation images only** — test
 | **Transistor** | 74.09% | 80.07% | 83.77% | 80.52% | **88.78%** 🏆 |
 | **Macro Mean** | 80.65% | 85.75% | 88.66% | 92.33% | **94.84%** 🏆 |
 
-> **AMEM-Net dominates F1**, winning 7 of 8 categories. The **Leather** category is particularly striking: AMEM-Net achieves **99.15% F1** vs PatchCore's 90.64% — a **+8.51% gain**. On Transistor, AMEM-Net achieves 88.78% F1 vs PatchCore's 80.52% — a **+8.26% gain**.
+> **AMEM-Net dominates F1**, winning 7 of 8 categories. The **Leather** category is particularly striking: AMEM-Net achieves **99.15% F1** vs PatchCore's 90.64% - a **+8.51% gain**. On Transistor, AMEM-Net achieves 88.78% F1 vs PatchCore's 80.52% - a **+8.26% gain**.
 
 ---
 
@@ -333,13 +308,13 @@ The threshold is locked from held-out **normal validation images only** — test
 
 <div align="center">
 <img src="figures/Fig03_MacroMean_AllMetrics.png" alt="Macro-Mean All Metrics Bar Chart" width="720"/>
-<br/><sub><i>Fig. 4 — Macro-mean comparison: AUROC · F1 · Precision · Recall · Accuracy across all 5 models</i></sub>
+<br/><sub><i>Fig. 4: Macro-mean comparison: AUROC · F1 · Precision · Recall · Accuracy across all 5 models</i></sub>
 </div>
 
 <br/>
 
 <details open>
-<summary><b>📋 Click to expand — Macro-mean metrics for all 5 models</b></summary>
+<summary><b>📋 Click to expand - Macro-mean metrics for all 5 models</b></summary>
 
 | Model | AUROC | F1 | Precision | Recall | Accuracy |
 |:---|:---:|:---:|:---:|:---:|:---:|
@@ -356,7 +331,7 @@ The threshold is locked from held-out **normal validation images only** — test
 ### 4. AMEM-Net Detailed Per-Category Metrics
 
 <details open>
-<summary><b>📋 Click to expand — Complete per-category detailed metrics for AMEM-Net (all 5 metrics)</b></summary>
+<summary><b>📋 Click to expand - Complete per-category detailed metrics for AMEM-Net (all 5 metrics)</b></summary>
 
 | Category | AUROC | F1 | Precision | Recall | Accuracy |
 |:---|:---:|:---:|:---:|:---:|:---:|
@@ -376,7 +351,7 @@ The threshold is locked from held-out **normal validation images only** — test
 
 ### 5. Validation Calibration Results
 
-The table below documents the self-supervised pseudo-gap used to calibrate each category's threshold — all from normal validation images only. A higher pseudo-gap indicates stronger separation between normal and pseudo-anomalous validation scores, confirming the router has learned meaningful boundaries.
+The table below documents the self-supervised pseudo-gap used to calibrate each category's threshold - all from normal validation images only. A higher pseudo-gap indicates stronger separation between normal and pseudo-anomalous validation scores, confirming the router has learned meaningful boundaries.
 
 | Category | Validation Pseudo Gap | Calibrated Threshold |
 |:---|:---:|:---:|
@@ -389,7 +364,7 @@ The table below documents the self-supervised pseudo-gap used to calibrate each 
 | **Cable** | 0.6325 | 0.538194 |
 | **Transistor** | 0.7743 | 0.487306 |
 
-> Metal Nut (0.9432) and Bottle (0.9237) have the highest pseudo-gaps — indicating the strongest normal vs pseudo-anomaly separation. Cable (0.6325) is the most challenging category, consistent with its lower AUROC and F1 results.
+> Metal Nut (0.9432) and Bottle (0.9237) have the highest pseudo-gaps - indicating the strongest normal vs pseudo-anomaly separation. Cable (0.6325) is the most challenging category, consistent with its lower AUROC and F1 results.
 
 ---
 
@@ -399,7 +374,7 @@ The table below documents the self-supervised pseudo-gap used to calibrate each 
 
 <div align="center">
 <img src="figures/Fig04_AUROC_Category_Comparison.png" alt="AUROC Category-wise Comparison Bar Chart" width="960"/>
-<br/><sub><i>Fig. 5 — Category-wise AUROC comparison: AMEM-Net (blue) vs all baselines. AMEM-Net dominates on difficult categories like Cable (+1.84%) and Transistor (+1.33%) where PatchCore's nearest-neighbour memory struggles.</i></sub>
+<br/><sub><i>Fig. 5: Category-wise AUROC comparison: AMEM-Net (blue) vs all baselines. AMEM-Net dominates on difficult categories like Cable (+1.84%) and Transistor (+1.33%) where PatchCore's nearest-neighbour memory struggles.</i></sub>
 </div>
 
 <br/>
@@ -408,12 +383,12 @@ The table below documents the self-supervised pseudo-gap used to calibrate each 
 
 <div align="center">
 <img src="figures/Fig08_F1_Category_Comparison.png" alt="F1 Category-wise Comparison Bar Chart" width="960"/>
-<br/><sub><i>Fig. 6 — F1 Score category-wise comparison across all 5 models. AMEM-Net delivers the largest F1 gains on Leather (+8.51% vs PatchCore) and Transistor (+8.26% vs PatchCore).</i></sub>
+<br/><sub><i>Fig. 6: F1 Score category-wise comparison across all 5 models. AMEM-Net delivers the largest F1 gains on Leather (+8.51% vs PatchCore) and Transistor (+8.26% vs PatchCore).</i></sub>
 </div>
 
 <br/>
 
-### Anomaly Heatmaps — AMEM-Net Localization
+### Anomaly Localization Heatmaps
 
 <div align="center">
 
@@ -427,21 +402,21 @@ The table below documents the self-supervised pseudo-gap used to calibrate each 
 
 </div>
 
-<sub><i>Fig. 7 — AMEM-Net anomaly localization heatmaps: Warmer colours indicate higher predicted anomaly scores. Defect regions are precisely highlighted despite zero pixel-level supervision during training.</i></sub>
+<sub><i>Fig. 7: AMEM-Net anomaly localization heatmaps: Warmer colours indicate higher predicted anomaly scores. Defect regions are precisely highlighted despite zero pixel-level supervision during training.</i></sub>
 
 <br/>
 
-### Comparative Heatmaps — AMEM-Net vs Baseline
+### Comparative Heatmaps: AMEM-Net vs Baseline
 
 <div align="center">
 
-| Carpet — AMEM-Net vs Baseline | Hazelnut — AMEM-Net vs Baseline |
+| Carpet - AMEM-Net vs Baseline | Hazelnut - AMEM-Net vs Baseline |
 |:---:|:---:|
 | ![Carpet AMEM Comparison](figures/heatmap_amem_carpet.png) | ![Hazelnut AMEM Comparison](figures/heatmap_amem_hazelnut.png) |
 
 </div>
 
-<sub><i>Fig. 8 — Side-by-side comparison of AMEM-Net anomaly maps vs baseline for Carpet and Hazelnut. AMEM-Net produces sharper, more localised defect highlighting.</i></sub>
+<sub><i>Fig. 8: Side-by-side comparison of AMEM-Net anomaly maps vs baseline for Carpet and Hazelnut. AMEM-Net produces sharper, more localised defect highlighting.</i></sub>
 
 <br/>
 
@@ -449,7 +424,7 @@ The table below documents the self-supervised pseudo-gap used to calibrate each 
 
 <div align="center">
 <img src="figures/Fig07_AMEM_Router_Loss_Logged.png" alt="AMEM-Net Router Training Loss Curves" width="820"/>
-<br/><sub><i>Fig. 9 — Self-supervised router loss curves per category across 50 epochs. Smooth convergence confirms stable self-supervised margin learning without anomaly label guidance.</i></sub>
+<br/><sub><i>Fig. 9: Self-supervised router loss curves per category across 50 epochs. Smooth convergence confirms stable self-supervised margin learning without anomaly label guidance.</i></sub>
 </div>
 
 <br/>
@@ -458,27 +433,27 @@ The table below documents the self-supervised pseudo-gap used to calibrate each 
 
 <div align="center">
 <img src="figures/Fig06_Validation_Calibration.png" alt="Validation Calibration Curves" width="720"/>
-<br/><sub><i>Fig. 10 — Validation-only threshold calibration: Score distributions of normal validation images and pseudo-anomalies per category. All 8 categories show clear separation — zero test label leakage.</i></sub>
+<br/><sub><i>Fig. 10: Validation-only threshold calibration: Score distributions of normal validation images and pseudo-anomalies per category. All 8 categories show clear separation - zero test label leakage.</i></sub>
 </div>
 
 ---
 
 ## 🛡️ Engineering: Reliability Features
 
-This project was designed to survive real-world interruptions — Colab disconnects, laptop sleep, power cuts — not just run once in a clean session.
+This project was designed to survive real-world interruptions - Colab disconnects, laptop sleep, power cuts - not just run once in a clean session.
 
 <details open>
 <summary><b>Click to expand all 7 reliability features</b></summary>
 
 | # | Feature | What It Does |
 |:---:|:---|:---|
-| 1 | **Per-epoch checkpointing + auto-resume** | Saves a checkpoint after every epoch. Re-running any cell resumes from the last completed checkpoint — zero GPU time wasted. |
+| 1 | **Per-epoch checkpointing + auto-resume** | Saves a checkpoint after every epoch. Re-running any cell resumes from the last completed checkpoint - zero GPU time wasted. |
 | 2 | **Per-category result persistence** | Results are saved to CSV immediately after each category completes. A mid-run crash loses at most one in-progress category. |
 | 3 | **Frozen expert memory caching** | AMEM expert memories are saved as `.pt` files. Rebuilding 20,000 normal patch banks is avoided on reruns. |
-| 4 | **PatchCore memory bank caching** | PatchCore's fitted memory and threshold are cached as `.npz` files — coreset sampling is fully deterministic and reproducible. |
-| 5 | **Automatic dataset discovery** | Auto-detects the MVTec AD root by scanning up to 6 directory levels — works on local Jupyter and Google Colab with Drive. |
+| 4 | **PatchCore memory bank caching** | PatchCore's fitted memory and threshold are cached as `.npz` files - coreset sampling is fully deterministic and reproducible. |
+| 5 | **Automatic dataset discovery** | Auto-detects the MVTec AD root by scanning up to 6 directory levels - works on local Jupyter and Google Colab with Drive. |
 | 6 | **Leakage-safe evaluation** | Thresholds are calibrated on held-out normal validation images only. Test labels are accessed only after thresholds are fully frozen. |
-| 7 | **Safety mode — version isolation** | V3/V4/V5 results and models are preserved; V6 writes to completely separate directories. No cross-version contamination. |
+| 7 | **Safety mode - version isolation** | V3/V4/V5 results and models are preserved; V6 writes to completely separate directories. No cross-version contamination. |
 
 </details>
 
@@ -486,7 +461,7 @@ This project was designed to survive real-world interruptions — Colab disconne
 
 ## 🚀 Quick Start
 
-### ▶ Google Colab — Recommended (Free T4 GPU)
+### ▶ Google Colab - Recommended (Free T4 GPU)
 
 ```
 1. Upload the notebook to Google Colab
@@ -500,7 +475,7 @@ This project was designed to survive real-world interruptions — Colab disconne
 9. Run figure cells → generates all AUROC/F1 heatmaps, comparison charts, heatmaps
 ```
 
-> ⏱️ **Estimated total runtime (all 5 models, 8 categories, RTX 3050 4GB):** ~6–8 hours total. Fully resumable — close the notebook and pick up exactly where you left off.
+> ⏱️ **Estimated total runtime (all 5 models, 8 categories, RTX 3050 4GB):** ~6–8 hours total. Fully resumable - close the notebook and pick up exactly where you left off.
 
 ### 💻 Local Jupyter
 
@@ -547,13 +522,13 @@ mvtec_anomaly_detection/
 AMEM-Net-Self-Supervised-Industrial-Visual-Anomaly-Detection/
 │
 ├── 📓 AMEM-Net Self-Supervised Industrial Visual Anomaly Detection.ipynb
-│   └── Master end-to-end pipeline — 11 cells covering:
+│   └── Master end-to-end pipeline - 11 cells covering:
 │       ├── Cell 1  : Dependency installation
 │       ├── Cell 2  : Imports & GPU setup
 │       ├── Cell 3  : Dataset discovery & config (8 categories, all hyperparameters)
 │       ├── Cell 4  : PatchCore baseline (all 8 categories, leakage-safe)
 │       ├── Cell 5  : CNN-AE / ResNet-AE / MemAE baselines (50 epochs, fully resumable)
-│       └── Cell 11 : AMEM-Net V6 — expert memory build + router training + evaluation
+│       └── Cell 11 : AMEM-Net V6 - expert memory build + router training + evaluation
 │
 ├── 📄 AMEM-Net_IEEE_Access_Research_Paper.pdf
 │   └── Full IEEE-formatted research paper with mathematical derivations
@@ -571,13 +546,13 @@ AMEM-Net-Self-Supervised-Industrial-Visual-Anomaly-Detection/
 │   ├── Fig06_Validation_Calibration.png     ← Validation threshold calibration curves
 │   ├── Fig07_AMEM_Router_Loss_Logged.png    ← Router training loss convergence (all cats)
 │   ├── Fig08_F1_Category_Comparison.png     ← Category-wise F1 comparison bar chart
-│   ├── heatmap_bottle.png                   ← AMEM-Net anomaly localization — Bottle
-│   ├── heatmap_carpet.png                   ← AMEM-Net anomaly localization — Carpet
-│   ├── heatmap_hazelnut.png                 ← AMEM-Net anomaly localization — Hazelnut
-│   ├── heatmap_leather.png                  ← AMEM-Net anomaly localization — Leather
-│   ├── heatmap_metal_nut.png                ← AMEM-Net anomaly localization — Metal Nut
-│   ├── heatmap_cable.png                    ← AMEM-Net anomaly localization — Cable
-│   ├── heatmap_wood.png                     ← AMEM-Net anomaly localization — Wood
+│   ├── heatmap_bottle.png                   ← AMEM-Net anomaly localization - Bottle
+│   ├── heatmap_carpet.png                   ← AMEM-Net anomaly localization - Carpet
+│   ├── heatmap_hazelnut.png                 ← AMEM-Net anomaly localization - Hazelnut
+│   ├── heatmap_leather.png                  ← AMEM-Net anomaly localization - Leather
+│   ├── heatmap_metal_nut.png                ← AMEM-Net anomaly localization - Metal Nut
+│   ├── heatmap_cable.png                    ← AMEM-Net anomaly localization - Cable
+│   ├── heatmap_wood.png                     ← AMEM-Net anomaly localization - Wood
 │   ├── heatmap_amem_carpet.png              ← Comparative heatmap (AMEM vs baseline)
 │   ├── heatmap_amem_hazelnut.png            ← Comparative heatmap (AMEM vs baseline)
 │   ├── Calibration_Values.xls               ← Per-category validation threshold values
@@ -585,7 +560,7 @@ AMEM-Net-Self-Supervised-Industrial-Visual-Anomaly-Detection/
 │   ├── Full_Results_Table_40_Rows.xls        ← 40-row master results table
 │   └── Macro_Mean_Comparison.xls            ← Macro-mean aggregated comparison
 │
-├── 📂 mvtec_anomaly_detection/              ← Dataset (not tracked — download separately)
+├── 📂 mvtec_anomaly_detection/              ← Dataset (not tracked - download separately)
 │   └── [bottle|carpet|hazelnut|...]
 │
 ├── 📋 requirements.txt                      ← Python dependency list
@@ -603,7 +578,7 @@ AMEM-Net-Self-Supervised-Industrial-Visual-Anomaly-Detection/
 | **Deep Learning Engine** | `PyTorch 2.7.1+cu118` · `Torchvision 0.22.1+cu118` |
 | **Feature Backbone** | `WideResNet50-2` (ImageNet pretrained, frozen) |
 | **Nearest-Neighbour (PatchCore)** | `scikit-learn NearestNeighbors` (Euclidean, n_jobs=-1) |
-| **Anomaly Score Metrics** | `scikit-learn` — AUROC, AUC-PR, F1, Precision, Recall, Accuracy |
+| **Anomaly Score Metrics** | `scikit-learn` - AUROC, AUC-PR, F1, Precision, Recall, Accuracy |
 | **Pixel-Level Metrics** | `scikit-image Otsu thresholding` · `scipy.ndimage` for PRO curve |
 | **Dataset** | `MVTec Anomaly Detection` (Bergmann et al., 2019) |
 | **Visualization** | `matplotlib` · `seaborn` · `OpenCV` |
@@ -643,7 +618,7 @@ AMEM-Net-Self-Supervised-Industrial-Visual-Anomaly-Detection/
 | **8 of 15 categories** | Full MVTec AD has 15 categories; this study evaluates 8 due to 4GB VRAM constraints. All 8 demonstrate consistent AMEM-Net superiority. |
 | **128×128 resolution** | Full-resolution (up to 1024×1024) would increase pixel-AUROC. Resolution was reduced to fit the 4GB laptop GPU constraint. |
 | **Fixed expert count** | 4 experts was chosen empirically; optimal expert count may vary by category texture complexity. |
-| **Self-supervised pseudo-margin only** | The router receives no semantic guidance — expert specialization emerges entirely from the margin loss structure. |
+| **Self-supervised pseudo-margin only** | The router receives no semantic guidance - expert specialization emerges entirely from the margin loss structure. |
 | **Single-class training** | Each category trains a separate model. A unified multi-category model is a future direction. |
 
 ---
@@ -658,7 +633,7 @@ AMEM-Net-Self-Supervised-Industrial-Visual-Anomaly-Detection/
   year      = {2026},
   note      = {M.Tech CSE (AI \& ML) Capstone Project,
                Registration No. 25MAI1006,
-               MACSE698 — Machine Learning for Computer Vision},
+               MACSE698 - Machine Learning for Computer Vision},
   url       = {https://github.com/ChigurupatiVenkatSaiKiran/AMEM-Net-Self-Supervised-Industrial-Visual-Anomaly-Detection}
 }
 ```
@@ -666,7 +641,7 @@ AMEM-Net-Self-Supervised-Industrial-Visual-Anomaly-Detection/
 **Reference Dataset:**
 ```bibtex
 @inproceedings{bergmann2019mvtec,
-  title     = {MVTec AD — A Comprehensive Real-World Dataset for Unsupervised Anomaly Detection},
+  title     = {MVTec AD - A Comprehensive Real-World Dataset for Unsupervised Anomaly Detection},
   author    = {Bergmann, Paul and Fauser, Michael and Sattlegger, David and Steger, Carsten},
   booktitle = {CVPR},
   year      = {2019}
@@ -677,7 +652,7 @@ AMEM-Net-Self-Supervised-Industrial-Visual-Anomaly-Detection/
 
 ## 📄 License
 
-MIT © 2026 [Chigurupati Venkat Sai Kiran](https://github.com/ChigurupatiVenkatSaiKiran) — see [`LICENSE`](LICENSE) for details.
+MIT © 2026 [Chigurupati Venkat Sai Kiran](https://github.com/ChigurupatiVenkatSaiKiran) - see [`LICENSE`](LICENSE) for details.
 
 ---
 
@@ -689,7 +664,7 @@ MIT © 2026 [Chigurupati Venkat Sai Kiran](https://github.com/ChigurupatiVenkatS
 
 *M.Tech CSE (Specialization in AI & ML) · Registration No. 25MAI1006 · 2025–27*
 
-*MACSE698 — Machine Learning for Computer Vision · Final Capstone Project*
+*MACSE698 - Machine Learning for Computer Vision · Final Capstone Project*
 
 <br/>
 
@@ -698,10 +673,6 @@ MIT © 2026 [Chigurupati Venkat Sai Kiran](https://github.com/ChigurupatiVenkatS
 <br/>
 
 ---
-
-<sub>📌 All experimental results in this README are exact values extracted directly from Jupyter Notebook cell outputs and verified against <code>figures/CategoryWise_Exact_Metrics.xls</code> — not estimates, not rounded approximations. The complete results are reproducible by running the notebook end-to-end.</sub>
-
-<br/>
 
 ⭐ **Star this repo** if the AMEM-Net architecture, self-supervised router design, or leakage-safe evaluation protocol is useful to your research
 
