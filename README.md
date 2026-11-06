@@ -218,6 +218,7 @@ where $\pi_e(\mathbf{q})$ is the router's soft routing probability for expert $e
 The router learns to partition normal patches across experts using a **self-supervised margin loss** - no anomaly labels are ever used:
 
 **Pseudo-anomaly generation:**
+
 $$\tilde{\mathbf{q}} = \mathbf{q} + \delta, \quad \|\delta\|_2 \sim \text{Uniform}(0.5\sigma, 2.0\sigma)$$
 
 where $\sigma$ is the feature standard deviation estimated from the training bank.
@@ -246,6 +247,7 @@ $$\mathcal{L}_{\text{router}} = \underbrace{\mathcal{L}_{\text{normal}}(\mathbf{
 $$S_{\text{image}} = \frac{1}{K} \sum_{k=1}^{K} s_{(k)}(\mathbf{q}), \quad K = \lfloor 0.05 \cdot H \cdot W \rfloor$$
 
 **Validation-only threshold calibration (leakage-safe):**
+
 $$\tau = Q_{0.995}\left(\left\{S_{\text{image}}^{(j)}\right\}_{j \in \mathcal{D}_{\text{val}}}\right)$$
 
 The threshold is locked from held-out **normal validation images only** - test labels are never consulted during calibration.
